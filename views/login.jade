@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Library App 
+      input(type="text", placeholder="your name")                 
+      link(href='/css/bootstrap.min.css', rel='stylesheet')
+  body
+    div
+      form(action="/login", method="post")
+        p= context
+        label Username:
+        input(type="text", name="username")
+        label Password
+        input(type="text", name="password")
+        input(type="submit", value="Log In", name="user_login")
+
+  script(src="/js/jquery.js")
+  script(src="/js/bootstrap.min.js")
+

@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Library App 
+      input(type="text", placeholder="your name")                 
+      link(href='/css/bootstrap.min.css', rel='stylesheet')
+  body
+    div
+      label Edit Book
+        form(action="/update", method='post')
+          label Title:
+          input(type='text', name='book_title', value=title)
+          label Author:
+          input(type='text', name="book_author", value=author)
+          input(type="hidden", name="book_id", value=book_id)
+          input(type='submit', value="Edit Book", name="edit_book")
+
+
+      
+  script(src="/js/jquery.js")
+  script(src="/js/bootstrap.min.js")
+

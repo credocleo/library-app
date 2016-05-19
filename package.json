@@ -1,0 +1,40 @@
+{
+  "name": "library_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/credocleo/library-app.git"
+  },
+  "author": "Cleo Credo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/credocleo/library-app/issues"
+  },
+  "homepage": "https://github.com/credocleo/library-app#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "character-parser": "^2.2.0",
+    "clean-css": "^3.4.12",
+    "constantinople": "^3.0.2",
+    "cookie": "^0.2.3",
+    "cookie-parser": "^1.4.1",
+    "cookie-signature": "^1.0.6",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "jade": "^1.11.0",
+    "jstransformer": "0.0.4",
+    "mysql": "^2.10.2",
+    "pug": "^2.0.0-alpha6",
+    "session": "^0.1.0",
+    "transformers": "^3.1.0",
+    "uglify-js": "^2.6.2",
+    "void-elements": "^2.0.1",
+    "with": "^5.0.0"
+  }
+}
