@@ -7,7 +7,8 @@ var bodyParser= require('body-parser');
 var http= require('http');
 var cookieParser=require('cookie-parser');
 var session = require('express-session');
-var session_var;
+
+
 
 var port= 1234;
 
@@ -28,18 +29,17 @@ connection.connect();
 
 app.get('/', function(req,res){
 	//res.render('login.jade');
-	//session_var = req.session;
-	var context = req.session.errMsg;
-	req.session.errMsg = null;
-	res.render('login.jade', {
-		context: context 
-	});
-	
-	/*if(session_var.username&&session_var.password){
-		res.redirect('/');
+	if(req.session.username != null){
+			var context = req.session.errMsg;
+			req.session.errMsg = null;
+			/*res.render('index.jade', {
+				context: context 
+			}); */
+			res.redirect('/home');
 	}else{
+		console.log('else');
 		res.render('login.jade');
-	} */
+	} 
 });
 
 app.get('/setSession', function(req,res){
@@ -164,21 +164,21 @@ app.get("/home",function(req,res){ //search all
 });
 
 app.post('/login',function(req,res, next){
-	session_var = req.session;
+
 	var data = {
 		user_name: req.body.username,
 		user_password: req.body.password
-	};
-	session_var.username = data.user_name;
-	session_var.password = data.user_password;
-
+	}; 
+	
 	connection.query('SELECT * from user WHERE username= ? AND password= ?',[data.user_name, data.user_password] ,function(err,rows,fields){
 		if(err){
 			console.log(err);
 		}else{
 			if(rows.length>0){
+				req.session.username = data.user_name;
 				console.log("login success!");
 				res.redirect("/home");
+				
 			}else{
 				
 				req.session.errMsg = 'wrong credentials';
