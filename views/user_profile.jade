@@ -4,8 +4,22 @@ html
     title BookWorms
     link(href='css/bootstrap.min.css', rel='stylesheet')
   body
-    h1 Library App
+    h1 User Profile
     button(onclick="toLogout()") Logout
+    table.table.table-bordered
+      thead
+        tr
+          th First Name:
+          th Last Name:
+          th Country:
+          th Self-Introduction
+      tbody
+        each info, index in person
+          tr
+            td= info.user_firstname
+            td= info.user_lastname
+            td= info.user_country
+            td= info.user_describe
     div
       label Search Book
         form(action="/search", method='get')
@@ -15,7 +29,7 @@ html
           input(type='text', name="book_author")
           input(type='submit', value='Search', name="search_book")
       button(onclick="toAddBookPage()") Add Book
-     
+
       table.table.table-striped
         thead
           tr
@@ -23,7 +37,7 @@ html
             th Title:
             th Author:
         tbody
-           each val, index in books 
+           each val, index in books
             tr
               td= val.book_id
               td= val.title

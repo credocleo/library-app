@@ -1,9 +1,8 @@
 doctype html
 html
   head
-    title Library App 
-      input(type="text", placeholder="your name")                 
-      link(href='/css/bootstrap.min.css', rel='stylesheet')
+    title BookWorms    
+    link(href='css/bootstrap.min.css', rel='stylesheet')
   body
     div
       form(action="/login", method="post")
@@ -13,7 +12,13 @@ html
         label Password
         input(type="password", name="password")
         input(type="submit", value="Log In", name="user_login")
+      p Don't have an account?
+      button(onClick="toSignupPage()") Sign Up!
 
-  script(src="/js/jquery.js")
-  script(src="/js/bootstrap.min.js")
-
+  script(src="js/jquery.js")
+  script(src="js/bootstrap.min.js")
+  script.
+    function toSignupPage(){
+      window.location.href="/newUser"
+    }
+  

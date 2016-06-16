@@ -7,9 +7,6 @@ var bodyParser= require('body-parser');
 var http= require('http');
 var cookieParser=require('cookie-parser');
 var session = require('express-session');
-
-
-
 var port= 1234;
 
 app.set('view engine', 'jade');
@@ -20,7 +17,7 @@ app.use(cookieParser());
 app.use(session({secret:'12345qwerty'}));
 
 var connection = mysql.createConnection({
-	host:'localhost',
+	host:'localhost',   
 	user: 'root',
 	database: 'bookkeeper'
 });
@@ -133,13 +130,14 @@ app.post("/delete", function(req,res,next){ //should be app.delete, query works
 	res.redirect("/home");
 });
 
+/*
 app.get("/home",function(req,res){ //search all
-	/*var data;
+	var data;
 	var book_idnum;
 	var book_title;
 	var book_author;
 	var book_published;
-	*/  
+	 
 	//this is not needed since in data JSON object below..you can make identifier, no need to declare
 	connection.query('SELECT book_id,title,author from book', function(err,rows,fields){
 		if(!err){
@@ -151,6 +149,7 @@ app.get("/home",function(req,res){ //search all
 				book_published : rows[0].date_published,
 			}; */
 			//console.log(data_loop.length);
+			/*
 			res.render('index.jade' , {
 				books: data_loop
 			});
@@ -161,8 +160,9 @@ app.get("/home",function(req,res){ //search all
 		}
 	});
 	
-});
+}); */
 
+/*
 app.post('/login',function(req,res, next){
 
 	var data = {
@@ -190,6 +190,105 @@ app.post('/login',function(req,res, next){
 		}
 	});
 });
+*/
+
+app.post('/login', function(req,res){
+	var data = {
+		user_name: req.body.username,
+		user_password: req.body.password
+	}; 
+	
+	connection.query('SELECT * from user WHERE username= ? AND password= ?',[data.user_name, data.user_password] ,function(err,rows,fields){
+		if(err){
+			console.log(err);
+		}else{
+			if(rows.length>0){
+				req.session.username = data.user_name;
+				console.log("login success!");
+				res.redirect("/home");
+				
+			}else{
+				
+				req.session.errMsg = 'wrong credentials';
+				console.log(req.session.errMsg);
+				res.redirect('/');
+				console.log('here');
+				
+			}
+		}
+	});
+});
+
+app.get("/home",function(req,res){ //search all
+	connection.query('SELECT user_firstname,user_lastname,user_country,user_describe from user',function(err,rows,fields){
+		if(!err){
+			var user_data = rows;
+			res.render('user_profile.jade',{
+				person : user_data
+			});
+		}else{
+			console.log(err);
+		}
+	});
+
+	/*
+	connection.query('SELECT * FROM book INNER JOIN user ON book.reader = user.user_id',function(err,rows,fields){
+		if(!err){
+			var users_books = rows;
+			res.end(users_books);
+		}else{
+			console.log(err);
+		}
+
+	}); */
+	connection.query('SELECT book_id,title,author from book', function(err,rows,fields){
+		if(!err){
+			var data_loop = rows;
+			/*data={
+				book_idnum : rows[0].book_id,
+				book_title : rows[0].title,
+				book_author : rows[0].author,
+				book_published : rows[0].date_published,
+			}; */
+			//console.log(data_loop.length);
+			res.render('user.jade' , {
+				books: data_loop
+			});
+			
+			//res.end(JSON.stringify(data));
+		}else{
+			console.log(err);
+		}
+	});
+	
+});
+
+
+app.get('/newUser', function(req,res){
+	res.render('signup.jade');
+});
+
+app.post('/addUser', function(req,res){
+	var user_info = {
+		username: req.body.username,
+		password: req.body.password,
+		user_firstname: req.body.fname,
+		user_lastname: req.body.lname,
+		user_country: req.body.country_user,
+		user_describe: req.body.user_desc
+	};
+	connection.query('INSERT INTO user SET ?',user_info,function(err,rows,fields){
+		if(!err){
+			var new_user = rows;
+			console.log('new user added');
+			console.log(new_user);
+		}else{
+			console.log(err);
+		}
+	});
+});
+
+
 
 app.get('/logout', function(req,res){
 	req.session.destroy(function(err){
